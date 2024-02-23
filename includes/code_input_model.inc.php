@@ -1,0 +1,20 @@
+<?php
+
+declare(strict_types=1);
+
+function get_code_of_current_question(object $pdo, int $group_id) {
+    $query = "  SELECT question.code
+                FROM question, group_progress
+                WHERE group_progress.group_id = :fellow_group_id
+                AND group_progress.current_question_id = question.id;";
+
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(":fellow_group_id", $group_id);
+    $stmt->execute();
+
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $result;
+}
+
+?>
